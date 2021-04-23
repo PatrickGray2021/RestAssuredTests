@@ -1,4 +1,4 @@
-package exmaple;
+package Example;
 
 public class MyConcatenator {
 
