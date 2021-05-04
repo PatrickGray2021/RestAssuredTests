@@ -17,11 +17,12 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 
-public class GET_Examples extends StatusCodeCheck {
+public class GET_Requests extends StatusCodeCheck {
 
     @BeforeTest
     void StatusCode() {
         GetStatusCode("http://dummy.restapiexample.com/api/v1/employees");
+        GetStatusCode("https://jsonplaceholder.typicode.com/users/");
     }
     public static Response GetRequest(String endpoint){
         RestAssured.defaultParser = Parser.JSON;
@@ -76,10 +77,11 @@ public class GET_Examples extends StatusCodeCheck {
         System.out.println("TEST 03");
         long startTime = System.currentTimeMillis();
 
-        get("https://jsonplaceholder.typicode.com/users/2/").then().assertThat()
-                .body(matchesJsonSchemaInClasspath("test.json"));
         Response response = GetRequest("https://jsonplaceholder.typicode.com/users/2/");
         System.out.println(response.prettyPrint());
+
+        get("https://jsonplaceholder.typicode.com/users/2/").then().assertThat()
+                .body(matchesJsonSchemaInClasspath("test.json"));
 
         long endTime = System.currentTimeMillis();
         long executionTime = endTime - startTime;
@@ -112,8 +114,6 @@ public class GET_Examples extends StatusCodeCheck {
             }
             else {
                 Assert.fail("Status code: " + response);
-
-
             }
             if (response == 429){
                 System.out.println("429 error message after " + id + " GET requests");
